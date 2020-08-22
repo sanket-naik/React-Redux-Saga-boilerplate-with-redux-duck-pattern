@@ -1,0 +1,1 @@
+export const Static_DATA_Failed = "Unable to fetch data!";
