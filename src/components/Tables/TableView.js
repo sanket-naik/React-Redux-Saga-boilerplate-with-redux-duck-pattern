@@ -1,78 +1,21 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import './table.css'
 
-
-
-// Import default letters
-
-const letters = [
-    {
-      title: "Sampler",
-      auth: "Oles Odynets",
-      date: "23/04/2017",
-      content: "Sample letter...",
-      root: "in"
-    },
-    {
-      title: "Restore your password",
-      auth: "Codepen",
-      date: "24/04/2017",
-      content: "Hi, User!",
-      root: "in"
-    },
-    {
-      title: "Interesting text",
-      auth: "Oles Odynets",
-      date: "23/73/2018",
-      content: "IT IS A DYMMI TEKST! Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus sagittis efficitur urna quis cursus. Mauris nec sem pharetra, iaculis tortor sed, interdum eros. Nunc efficitur semper justo quis viverra. Etiam metus eros, finibus vitae odio in, rutrum viverra urna. Aliquam pulvinar aliquam urna, sodales commodo mi maximus et. Integer in feugiat mi. Sed orci turpis, volutpat suscipit magna at, ornare bibendum mi.Aliquam euismod ut lacus eget faucibus. Duis tincidunt est vestibulum ex accumsan lacinia. Sed aliquet porta enim, nec condimentum tellus dictum ac. Duis quis ligula ac massa posuere bibendum. Curabitur ultricies consequat mauris quis interdum. Fusce at feugiat nisl, vitae sodales lacus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Vestibulum in pretium libero, in suscipit ante. Suspendisse tortor urna, vestibulum at metus eget,convallisaliquamnulla.Vivamus elit justo, tincidunt in leo ut, condimentum consequat tellus. Phasellus ut maximus odio, et dignissim elit. Aenean et commodo dui, sit amet pulvinar nisl. Duis feugiat quis enim eu consequat.Nam quis condimentum lacus. Pellentesque sit amet ex felis. Cras ultrices bibendum metus ac pretium. Morbi id eleifend quam. Quisque sed aliquam lacus. Nulla facilisi. Phasellus leo massa, ornare nec pellentesque sed, tincidunt a leo. Donec tortor velit, lacinia a nibh sit amet, placerat accumsan lectus. Nunc convallis, ex varius molestie rutrum, enim lectus tristique lorem, sit amet dignissim felis velit non dui. Curabitur id nisi vitae dui tempor rhoncus. Nulla fermentum cursus dolor, finibus neque aliquam vel. Praesent varius ipsum turpis, eget convallis sapien.",
-      root: "in"
-    },
-    {
-      title: "Ohhh",
-      auth: "Oles Odynets",
-      date: "48/12/2018",
-      content: "So many letters",
-      root: "in"
-    },
-    {
-      title: "O, jag kan skriva på svenska",
-      auth: "Oles Odynets",
-      date: "12/04/2018",
-      content: "Pratar du svenska eller du är english boy? Sweadish very good",
-      root: "in"
-    },
-    {
-      title: "Does you likes coffess to yours beds?",
-      auth: "My Computer",
-      date: "32/04/2004",
-      content: "No, I didn't (english 11/10)",
-      root: "in"
-    }
-  ];
-
-// App
-
-
-
 class Mail extends React.Component {
-  submit() {
-    this.props.onOpen({
+ click=()=> {
+    this.props.onClick({
       index: this.props.index,
-      title: this.props.title,
-      content: this.props.content,
-      auth: this.props.auth,
-      date: this.props.date,
-      root: this.props.root
+      data:this.props.data
     });
   }
 
   render() {
     return(
-      <div className={ `mail${(this.props.activeID === this.props.index) ? " active" : ""}` } onClick={ this.submit.bind(this) }>
-        <p className="mail-title">{ this.props.title.toUpperCase() }</p>
+      <div className={`mail${(this.props.selectedIndex === this.props.index) ? " active" : ""}`} onClick={ ()=>this.click(this.props.index, this.props.data) }>
+        <p className="mail-title">{ this.props.name}</p>
         <div className="mail-infobox">
-          <span className="mail-auth">{ this.props.auth.toUpperCase() }</span>
-          <span className="mail-date">{ this.props.date.toUpperCase() }</span>
+          <span className="mail-auth">{ this.props.phone}</span>
+          <span className="mail-date">{ this.props.cell}</span>
         </div>
       </div>
     );
@@ -84,19 +27,18 @@ class Mails extends React.Component {
     return(
       <div className="window mails">
         {
-          (this.props.display.length) ?
-            this.props.display.map((session, index) => {
+          (this.props.data.length) ?
+            this.props.data.map((data, index) => {
               return(
                 <Mail
                   key={ index }
                   index={ index }
-                  title={ session.title }
-                  content={ session.content }
-                  auth={ session.auth }
-                  date={ session.date }
-                  root={ session.root }
-                  activeID={ this.props.activeID }
-                  onOpen={ this.props.onRequest }
+                  onClick={this.props.onClick}
+                  selectedIndex={this.props.selectedIndex}
+                  data={data}
+                  name={ `${data.name.first} ${data.name.last}` }
+                  phone={ data.phone } //add status
+                  cell={data.cell} //plan price here
                 />
               );
             })
@@ -123,19 +65,19 @@ class Display extends React.Component {
   }
 
   componentWillReceiveProps(newProps) { // unsafe lc method [Strict-Mode-Alert]
-    let a = newProps.render;
+    console.log("====",newProps)
+    let a = newProps.selected;
     if(a === undefined) {
       this.setState({
         render: false
       });
     } else {
       this.setState({
-        render: true,
-        index: a.index,
-        title: a.title,
-        auth: a.auth,
-        date: a.date,
-        content: a.content
+        render:true,
+        cell: a.cell,
+        email: a.email,
+        gender: a.gender,
+        // name: a.name.title,
       });
     }
   }
@@ -146,7 +88,7 @@ class Display extends React.Component {
         <div className="window display">
           <div className="display-header">
             <div>
-              <h5>{ this.state.title }</h5>
+              <h5>{ this.state.gender }</h5>
               {
                 (this.props.activeTopic !== "trashbin") ?
                   <div
@@ -175,12 +117,12 @@ class Display extends React.Component {
               }
             </div>
             <div>
-              <span>{ this.state.auth }</span>
-              <span>{ this.state.date }</span>
+              <span>{ this.state.cell }</span>
+              <span>{ this.state.email }</span>
             </div>
           </div>
           <div className="display-display">
-            <p className="display-content">{ this.state.content }</p>
+            <p className="display-content">Main contents here.....</p>
           </div>
         </div>
       );
@@ -194,186 +136,54 @@ class Display extends React.Component {
   }
 }
 
-export default class TableView extends React.Component {
-  constructor(props) {
-    super(props);
+export const TableView =(props)=> {
 
-    this.state = {
-      editMode: false,
-      listening: undefined,
-      query: letters,
-      queryName: "inbox",
+    const[state, setState]=useState({
+        editMode: false,
+        listening: undefined,
+        queryName: "inbox",
 
-      inbox: letters,
-      sent: [],
-      drafts: [],
-      trashbin: []
-    }
-  }
+        sent: [],
+        drafts: [],
+        trashbin: [],
 
-  componentDidMount(){
-      console.log("============================",this.props.dataSource, this.props.selected)
-  }
+        data:props.dataSource,
+        selected:'',
+        selectedIndex:''
+    })
 
-  renderLetter = data => {
-    this.setState({
+    useEffect(() => {
+        setState({...state,
+            selected:props.selected,
+            selectedIndex:props.selected.index})
+    }, [props.selected])
+
+
+  const renderLetter = data => {
+    setState({
+        ...state,
       listening: data
     });
   }
 
-  openWindow = role => {
-    if(role === this.state.queryName) return false;
-
-    this.setState({
-      listening: undefined
-    });
-    switch(role) {
-      case 'inbox':
-        this.setState({
-          query: this.state.inbox
-        });
-      break;
-      case 'sent':
-        this.setState({
-          query: this.state.sent
-        });
-      break;
-      case 'drafts':
-        this.setState({
-          query: this.state.drafts
-        });
-      break;
-      case 'trashbin':
-      this.setState({
-        query: this.state.trashbin
-      });
-      break;
-      default:break;
-    }
-    this.setState({
-      queryName: role
-    });
+  const HandleListClick=(data)=>{
+    setState({...state,
+        selected:data.data,
+        selectedIndex:data.index})
   }
 
-  deleteLetter = (index, status) => {
-    let a = this.state.query,
-        b = a[index];
-    a.splice(index, 1);
-    switch(this.state.queryName) {
-      case 'inbox':
-        this.setState({
-          inbox: a,
-          trashbin: this.state.trashbin.concat(b).reverse()
-        });
-      break;
-      case 'sent':
-        this.setState({
-          sent: a,
-          trashbin: this.state.trashbin.concat(b).reverse()
-        });
-      break;
-      case 'drafts':
-        this.setState({
-          drafts: a,
-          trashbin: this.state.trashbin.concat(b).reverse()
-        });
-      break;
-      case 'trashbin':
-        this.setState({
-          trashbin: a
-        });
-        if(status === "ur") break;
-        if(b.root === "in") {
-          let c = this.state.inbox.concat(b).reverse();
-          this.setState({
-            inbox: c,
-            query: (this.state.queryName === "inbox") ? c : this.state.query
-          });
-        } else if(b.root === "out") {
-          let c = this.state.sent.concat(b).reverse();
-          this.setState({
-            sent: c,
-            query: (this.state.queryName === "sent") ? c : this.state.query
-          });
-        } else if(b.root === "draft") {
-          let c = this.state.drafts.concat(b).reverse();
-          this.setState({
-            drafts: c,
-            query: (this.state.queryName === "drafts") ? c : this.state.query
-          });
-        }
-      break;
-      default:break;
-    }
-    this.setState({
-      query: a,
-      listening: undefined
-    });
-  }
-
-  getCurrentTimestamp() {
-    let a = new Date(),
-        b = a.getDate(),
-        c = a.getMonth() + 1,
-        d = a.getFullYear();
-
-    if(b < 10){
-        b = '0' + b;
-    }
-    if(c < 10){
-        c = '0' + c;
-    }
-    return b + '/' + c + '/' + d;
-  }
-
-  sendLetter = (title, content, to) => {
-    let a =
-            {
-              title: title,
-              auth: to,
-              date: this.getCurrentTimestamp(),
-              content: content,
-              root: "out"
-            },
-        b = this.state.sent.concat(a);
-
-    this.setState({
-      sent: b,
-      query: (this.state.queryName === "sent") ? b : this.state.query
-    });
-  }
-
-  createDraft = (title, content, to) => {
-    let a =
-            {
-              title: title,
-              auth: to,
-              date: this.getCurrentTimestamp(),
-              content: content,
-              root: "draft"
-            },
-        b = this.state.drafts.concat(a);
-
-    this.setState({
-      drafts: b,
-      query: (this.state.queryName === "drafts") ? b : this.state.query
-    });
-  }
-
-  render() {
     return(
       <div className="AppC">
         <Mails
-          onRequest={ this.renderLetter }
-          display={ this.state.query }
-          activeID={ (this.state.listening !== undefined) ? this.state.listening.index : -1 }
+          onRequest={ renderLetter }
+          data={state.data}
+          selectedIndex={state.selectedIndex}
+          onClick={HandleListClick}
         />
         <Display
-          render={ this.state.listening }
-          onDelete={ this.deleteLetter }
-          activeTopic={ this.state.queryName }
+          selected={ state.selected }
+          onDelete={ ()=>alert("delete clicked") }
         />
       </div>
     );
-  }
 }

@@ -6,7 +6,7 @@ import 'antd/dist/antd.css';
 import { Table, Radio, Divider } from 'antd';
 import Axios from 'axios';
 import './table.css'
-import TableView from './TableView';
+import {TableView} from './TableView';
 
 const columns = [
   {
@@ -47,7 +47,8 @@ export default class tables extends React.Component {
       pageSize: 10,
     },
     loading: false,
-    selected:""
+    selected:"",
+    showView:false,
   };
 
   componentDidMount() {
@@ -101,12 +102,17 @@ export default class tables extends React.Component {
   };
 
 
+ HandleRowClick=(record, index)=>{
+    this.setState({selected:{...record, index, showView:true}})
+  }
+
+
   render() {
     const { data, pagination, loading } = this.state;
     return (
         <>
       {/* <Divider/> */}
-
+        
       <Table
         columns={columns}
         rowSelection={{
@@ -119,13 +125,13 @@ export default class tables extends React.Component {
         loading={loading}
         onRow={(record, index) => ({
             onClick: (event) => { 
-                this.setState({selected:{...record, index}})
+                this.HandleRowClick(record, index)
              } 
           })}
         onChange={this.handleTableChange}
       />
-
-    <TableView dataSource={data} selected={this.state.selected}/>
+    {data.length>0 &&
+    <TableView dataSource={data} selected={this.state.selected}/>}
     
       </>
     );
