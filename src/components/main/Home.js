@@ -3,6 +3,7 @@ import { connect } from 'react-redux'
 import {actions as StateActions} from '../../redux/ducks/userState'
 import {actions as DataActions} from '../../redux/ducks/fetchData'
 import { bindActionCreators } from 'redux'
+import { Button } from 'antd';
 
 export const Home = (props) => {
 
@@ -25,7 +26,7 @@ export const Home = (props) => {
                 <div>{props.state.Name}</div>
             </div>
             <div>
-                <button onClick={HandleFetch}>{props.apiData.isLoading?"Loading...":"Fetch Data"}</button>
+                <Button onClick={HandleFetch}>{props.apiData.isLoading?"Loading...":"Fetch Data"}</Button>
                 {data &&
                 <div>
                     {
@@ -46,7 +47,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps =(dispatch)=> ({
     ...bindActionCreators({
-            ...StateActions,
+            ...StateActions, 
             ...DataActions,
           //ADD IF ITS FROM DIFFRENT ACTION FILE
       }, dispatch)

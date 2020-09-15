@@ -12,5 +12,5 @@ export default appReducer
 
 //WHITELIST WHAT TO PERSIST (INCLUDE THE REDUCER FORM COMBINED REDUCER )
 export const whitelisted=[
-    "userState"
+    "userState",
 ]
