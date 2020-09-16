@@ -17,7 +17,6 @@ import {
   MailOutlined,
   CalendarOutlined,
   AppstoreOutlined,
-  SettingOutlined,
   LinkOutlined,
   DesktopOutlined,
   PieChartOutlined,
@@ -27,8 +26,12 @@ import {
  } from '@ant-design/icons';
 import { urls } from './routes/router-urls';
 import { withRouter } from 'react-router-dom';
+import './App.css'
+import { Avatar, Input } from 'antd';
+import { BellOutlined, SettingOutlined, QuestionCircleOutlined } from '@ant-design/icons';
+import { ProfileDrawer } from './components/main/ProfileDrawer';
 
-
+const { Search } = Input;
 const { SubMenu } = Menu;
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -37,7 +40,8 @@ class App extends React.Component {
     mode: 'inline',
     theme: 'light',
     collapsed: false,
-    selectedNav:"1"
+    selectedNav:"1",
+    showDrower:false
   };
 
   changeMode = value => {
@@ -62,6 +66,7 @@ class App extends React.Component {
   this.props.history.push(url)
   }
 
+
   render() {
     return (
     
@@ -71,10 +76,11 @@ class App extends React.Component {
          <Switch onChange={this.changeTheme} /> Change Style
          <br />
          <br /> */}
+      <ProfileDrawer visible={this.state.showDrower} setVisible={(e)=>this.setState({showDrower:e})}/>
       <Layout style={{ minHeight: '100vh' }}>
         <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{backgroundColor:"#eeeeee"}}>
-          <div className="logo" style={{margin:'10px 0px 15px 20px'}}>
-              <img src="https://res.cloudinary.com/onsurity/image/upload/fl_lossy,f_auto,q_auto/v1595591334/New-home-screen/Group_1328_bbme78.svg" height="35px"/>
+          <div className="logo" style={{margin:'15px 0px 15px 20px'}}>
+              <img src="https://res.cloudinary.com/onsurity/image/upload/fl_lossy,f_auto,q_auto/v1595591334/New-home-screen/Group_1328_bbme78.svg" height="25px"/>
           </div>
           <Menu 
             // defaultSelectedKeys={['1']} 
@@ -86,10 +92,10 @@ class App extends React.Component {
             theme={this.state.theme}
             >
             <Menu.Item key="1" onClick={()=>this.Navigate("1", urls.HOME)} icon={<PieChartOutlined />}>
-              Home
+              Invoice
             </Menu.Item>
             <Menu.Item key="2"  onClick={()=>this.Navigate("2", urls.TEST)} icon={<DesktopOutlined />}>
-              Dummy
+              Payments
             </Menu.Item>
             <SubMenu key="sub1" icon={<UserOutlined />} title="User">
               <Menu.Item key="3">Tom</Menu.Item>
@@ -104,12 +110,30 @@ class App extends React.Component {
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 , backgroundColor:'#f7f7f7'}} />
-          <Content style={{ margin: '0 16px' }}>
-            <Breadcrumb style={{ margin: '16px 0' }}>
+          <Header className="site-layout-background" style={{ padding: 0 , backgroundColor:'#f7f7f7'}} >
+            <div>
+           
+            <div style={{textAlign:'right'}}>
+              <div style={{marginRight:'30px'}}>
+               <Search
+                    placeholder="search"
+                    onSearch={value => console.log(value)}
+                    style={{ width: 200, marginRight:"650px", borderRadius:"15px" }}
+                  />
+                <BellOutlined className="IconFont"/> &nbsp; &nbsp; &nbsp;
+                <SettingOutlined className="IconFont" /> &nbsp; &nbsp; &nbsp;
+                <QuestionCircleOutlined className="IconFont" /> &nbsp; &nbsp; &nbsp;
+                <Avatar onClick={()=>this.setState({showDrower:true})} className="IconFont gggY" size={35} icon={<UserOutlined />} />
+              </div>
+              
+            </div>
+            </div>
+          </Header>
+          <Content style={{ margin: '0px', backgroundColor:"#fff" }}>
+            {/* <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
-            </Breadcrumb>
+            </Breadcrumb> */}
 
             <div className="site-layout-background" style={{ padding: 10, minHeight: 360 }}>
               <Routes/>

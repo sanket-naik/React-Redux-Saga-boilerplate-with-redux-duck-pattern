@@ -111,7 +111,8 @@ class Display extends React.Component {
             </div>
           </div>
           <div className="display-display">
-            <p className="display-content">Main contents here.....</p>
+            {/* <p className="display-content">Main contents here.....</p> */}
+            <img width="100%" src="https://res.cloudinary.com/onsurity/image/upload/v1600265307/OnSurity/OnsurityAssets/008-unforgettable-free-invoice-template-pdf-download-high-resolution-1920_2717_qc8rt1.jpg"/>
           </div>
         </div>
       );
