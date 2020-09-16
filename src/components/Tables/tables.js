@@ -106,13 +106,17 @@ export default class tables extends React.Component {
     this.setState({selected:{...record, index, showView:true}})
   }
 
+  CloseView=()=>{
+    this.setState({showView:false})
+  }
+
 
   render() {
     const { data, pagination, loading } = this.state;
     return (
         <>
-      {/* <Divider/> */}
-        
+     
+    {this.state.showView===false?
       <Table
         columns={columns}
         rowSelection={{
@@ -126,12 +130,19 @@ export default class tables extends React.Component {
         onRow={(record, index) => ({
             onClick: (event) => { 
                 this.HandleRowClick(record, index)
+                this.setState({showView:true})
              } 
           })}
         onChange={this.handleTableChange}
       />
-    {data.length>0 &&
-    <TableView dataSource={data} selected={this.state.selected}/>}
+      :
+      <>
+        {data.length>0 &&
+        <TableView 
+            dataSource={data}
+            selected={this.state.selected}
+            closeView={()=>this.CloseView()}/>}
+      </>}
     
       </>
     );

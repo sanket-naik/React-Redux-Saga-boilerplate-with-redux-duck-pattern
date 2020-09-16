@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import './table.css'
+import { CloseOutlined } from '@ant-design/icons';
 
 class Mail extends React.Component {
  click=()=> {
@@ -89,7 +90,7 @@ class Display extends React.Component {
           <div className="display-header">
             <div>
               <h5>{ this.state.gender }</h5>
-              {
+              {/* {
                 (this.props.activeTopic !== "trashbin") ?
                   <div
                     key="A"
@@ -98,23 +99,11 @@ class Display extends React.Component {
                     >
                     <i className="fas fa-trash-alt"></i>
                   </div>
-                :
-                  <div className="display-header-removebox">
-                    <div
-                      key="B"
-                      className="display-header-remove safe"
-                      onClick={ () => this.props.onDelete(this.state.index, "r") }
-                      >
-                      <i className="fas fa-undo-alt" />
-                    </div>
-                    <div
-                      className="display-header-remove"
-                      onClick={ () => this.props.onDelete(this.state.index, "ur") }
-                      >
-                      <i className="fas fa-trash" />
-                    </div>
+                : */}
+                  <div style={{cursor:'pointer'}} onClick={()=>this.props.closeView()}>
+                    <CloseOutlined />
                   </div>
-              }
+              {/* } */}
             </div>
             <div>
               <span>{ this.state.cell }</span>
@@ -181,6 +170,7 @@ export const TableView =(props)=> {
           onClick={HandleListClick}
         />
         <Display
+          closeView={()=>props.closeView()}
           selected={ state.selected }
           onDelete={ ()=>alert("delete clicked") }
         />

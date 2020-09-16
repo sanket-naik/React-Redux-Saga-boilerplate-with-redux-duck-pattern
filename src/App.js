@@ -35,7 +35,7 @@ const { Header, Content, Footer, Sider } = Layout;
 class App extends React.Component {
   state = {
     mode: 'inline',
-    theme: 'dark',
+    theme: 'light',
     collapsed: false,
     selectedNav:"1"
   };
@@ -48,7 +48,7 @@ class App extends React.Component {
 
   changeTheme = value => {
     this.setState({
-      theme: value ? 'light' : 'dark',
+      theme: value ? 'dark' : 'light',
     });
   };
 
@@ -66,20 +66,20 @@ class App extends React.Component {
     return (
     
       <>
-         <Switch onChange={this.changeMode} /> Change Mode
+         {/* <Switch onChange={this.changeMode} /> Change Mode
          <Divider type="vertical" />
          <Switch onChange={this.changeTheme} /> Change Style
          <br />
-         <br />
+         <br /> */}
       <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse}>
-          <div className="logo" style={{margin:'10px 0px 10px 20px'}}>
-              <img src="https://res.cloudinary.com/onsurity/image/upload/v1580283811/OnSurity/assets/full_logo_2x_eo3cnd.png" height="35px"/>
+        <Sider collapsible collapsed={this.state.collapsed} onCollapse={this.onCollapse} style={{backgroundColor:"#eeeeee"}}>
+          <div className="logo" style={{margin:'10px 0px 15px 20px'}}>
+              <img src="https://res.cloudinary.com/onsurity/image/upload/fl_lossy,f_auto,q_auto/v1595591334/New-home-screen/Group_1328_bbme78.svg" height="35px"/>
           </div>
           <Menu 
             // defaultSelectedKeys={['1']} 
             // mode="inline"
-            // style={{ width: 256, height:'100vh' }}
+            style={{ backgroundColor:"#eeeeee"}}
             // defaultOpenKeys={['sub1']}
             selectedKeys={this.state.selectedNav}
             mode={this.state.mode}
@@ -100,18 +100,18 @@ class App extends React.Component {
               <Menu.Item key="6">Team 1</Menu.Item>
               <Menu.Item key="8">Team 2</Menu.Item>
             </SubMenu>
-            <Menu.Item key="9" icon={<FileOutlined />} />
+            {/* <Menu.Item key="9" icon={<FileOutlined />} /> */}
           </Menu>
         </Sider>
         <Layout className="site-layout">
-          <Header className="site-layout-background" style={{ padding: 0 }} />
+          <Header className="site-layout-background" style={{ padding: 0 , backgroundColor:'#f7f7f7'}} />
           <Content style={{ margin: '0 16px' }}>
             <Breadcrumb style={{ margin: '16px 0' }}>
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Bill</Breadcrumb.Item>
             </Breadcrumb>
 
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
+            <div className="site-layout-background" style={{ padding: 10, minHeight: 360 }}>
               <Routes/>
             </div>
           </Content>
