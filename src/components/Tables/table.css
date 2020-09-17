@@ -126,11 +126,11 @@
   }
   
   .mail.active > * > * {
-    color:blue;
+    color:#1890ff;
   }
   
   .mail-title {
-    font-size:16px;
+    font-size:14px;
     font-weight:400;
     width:100%;
     overflow:hidden;
@@ -167,7 +167,7 @@
   
   .display-header > div {
     width:calc(100% - 40px);
-    padding-left:20px;
+    padding-left:0px;
     padding-right:20px;
     display:flex;
     align-items:center;

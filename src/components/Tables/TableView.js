@@ -89,7 +89,7 @@ class Display extends React.Component {
         <div className="window display">
           <div className="display-header">
             <div>
-              <h5>{ this.state.gender }</h5>
+              <h5>{ this.state.email }</h5>
               {/* {
                 (this.props.activeTopic !== "trashbin") ?
                   <div
@@ -107,7 +107,7 @@ class Display extends React.Component {
             </div>
             <div>
               <span>{ this.state.cell }</span>
-              <span>{ this.state.email }</span>
+              <span>{ this.state.gender }</span>
             </div>
           </div>
           <div className="display-display">
